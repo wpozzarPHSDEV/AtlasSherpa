@@ -1,0 +1,32 @@
+{
+  "manifest_version": 2,
+
+  "name": "Atlas Sherpa",
+  "description": "Guides you through Atlas",
+  "version": "1.0.2",
+
+  "permissions": [
+		"history",
+    "activeTab",
+    "storage",
+    "https://ajax.googleapis.com/",
+    "https://*.partners.org/*",
+    "chrome://favicon/*"
+  ],
+  "browser_action": {
+    "default_icon": "img/icon.png",
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "scripts": [ "./plugins/jquery/jquery-3.3.1.min.js", "background.js" ]
+  },
+  "content_scripts": [
+    {
+      "matches": [ "http://*.partners.org/*webui/webshellpage.aspx?databasename*", "https://*.partners.org/*webui/webshellpage.aspx?databasename*" ],
+      "js": [ "./plugins/jquery/jquery-3.3.1.min.js", "content.js" ],
+      "css":  ["content.css"],
+      "run_at": "document_end"
+    }
+  ],
+  "web_accessible_resources": ["inject.js"]
+}

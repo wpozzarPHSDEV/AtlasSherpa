@@ -1,0 +1,423 @@
+﻿/*
+    header/footer #293846
+
+	background-color: #d5d5e5; -- dark gray
+    background-color: #f3f3f4; -- almost black??
+
+    color: #1c84c6; -- link blue
+    color: #888888; -- light gray
+    color: #135783; -- light link blue
+
+    border-bottom: 1px solid #e7eaec; --light gray
+
+    #3bb54a //BB GREEN
+    #e9f0f4 // light gray link
+    #73AB60 // green header
+    #c4c5c7 // grey background border
+    #54757f // blue link color
+
+
+SKYUX
+Text
+	Usage: The default color for text
+	Code: $sky-text-color-default
+	Styling: #212327
+
+	Usage: De-emphasized text
+	Code: $sky-text-color-deemphasized
+	Styling: #686c73
+
+	Usage: Text on a dark background
+	Code: $sky-text-color-on-dark
+	Styling: #ffffff
+
+	Usage: Action-invoking elements such as links
+	Code: $sky-text-color-action-primary
+	Styling: #0974a1
+
+	Usage: Borderless icon buttons such as the expand/collapse chevron
+	Code: $sky-text-color-icon-borderless
+	Styling: #cdcfd2
+
+Backgrounds
+	Usage: Background for elements that need to contrast with the containers they hold, such as a record page made up of tiles
+	Code: $sky-background-color-neutral-light
+	Styling: #eeeeef
+
+	Usage: Background for elements that invoke primary actions, such as a primary button
+	Code: $sky-background-color-primary-dark
+	Styling: #0974a1
+
+	Usage: Background for disabled interactive elements such as buttons
+	Code: $sky-background-color-disabled
+	Styling: #cdcfd2
+
+	Usage: Background for selected items within a list of items
+	Code: $sky-background-color-selected
+	Styling: #f1eef6
+
+	Usage: Background for elements that convey an "information" status, such as alerts, labels, and toasts
+	Code: $sky-background-color-info
+	Styling: #81d4f7
+
+	Usage: Background for less important elements that convey an "information" status, such as applied filter bubbles
+	Code: $sky-background-color-info-light
+	Styling: #c1e8fb
+
+	Usage: Background for elements that convey a "success" status, such as alerts, labels, and toasts
+	Code: $sky-background-color-success
+	Styling: #b7da9b
+
+	Usage: Background for elements that convey a "warning" status, such as alerts, labels, and toasts
+	Code: $sky-background-color-warning
+	Styling: #ffd597
+
+	Usage: Background for elements that convey a "danger" status, such as alerts, labels, and toasts
+	Code: $sky-background-color-danger
+	Styling: #f7a08f
+
+	Usage: Background for buttons that invoke a primary action that is destructive, such as deleting an item
+	Code: $sky-background-color-danger-dark
+	Styling: #d93a3d
+
+Highlights
+	Usage: Highlight for elements that convey an "information" status, such as alerts, labels, and toasts
+	Code: $sky-highlight-color-info
+	Styling: #00b4f1
+
+	Usage: Highlight for elements that convey a "success" status, such as alerts, labels, and toasts
+	Code: $sky-highlight-color-success
+	Styling: #71bf43
+
+	Usage: Highlight for elements that convey a "warning" status, such as alerts, labels, and toasts
+	Code: $sky-highlight-color-warning
+	Styling: #fbb034
+
+	Usage: Highlight for elements that convey a "danger" status, such as alerts, labels, and toasts
+	Code: $sky-highlight-color-danger
+	Styling: #ef4044
+	Borders
+
+	Usage: Borders that separate sections of content within a container
+	Code: $sky-border-color-neutral-light
+	Styling: #e2e3e4
+
+	Usage: Borders that separate containers from their surroundings, or that separate sections of active elements from the contents of a container such as separating a toolbar from a list of records
+	Code: $sky-border-color-neutral-medium
+	Styling: #cdcfd2
+
+borders
+    Light
+    1px solid #e2e3e4
+    When this line style subdivides content within a container, use a 15px margin on both ends.
+
+    Dark
+    1px solid #cdcfd2
+
+    Row
+    1px dotted #cdcfd2
+
+Corners
+    General
+    border-radius: 3px
+
+*/
+
+html{
+    font-size: 12px;
+}
+
+body {
+    width: 350px;
+    font-size: 12px;
+    /*padding: 0px;
+    margin: 0px;*/
+    /*background-color: #f3f3f4;*/
+    font-family: 'Lucida Grande','Segoe UI',Helvetica,Arial,sans-serif;
+    font-size: 12px;
+    color:#212327
+}
+
+*
+{
+	/*font-family: 'Trebuchet MS', 'Pontano Sans', sans-serif;*/
+
+}
+
+/* Fix for tooltip flicker */
+.tooltip {
+  pointer-events: none;
+}
+
+/* Title */
+.app-name {
+    	cursor: default;
+    padding: 3px;
+    font-size: 1.25em;
+    font-weight: 500;
+    margin: 0;
+    /*color: #1c84c6;*/
+    display: inline-block;
+
+}
+
+
+/* GENERAL */
+.clickableDiv {
+    cursor:pointer;
+    color:#0974a1;
+}
+button {
+    border-radius: 3px;
+}
+
+a {
+    cursor:pointer;
+    color:#0974a1;
+}
+
+
+
+/* BS TABS  */
+.nav-tabs > li > a.active {
+  color: #686c73;
+}
+.nav-tabs > li > a {
+  color: #cdcfd2;
+}
+
+
+/*  APP TABS  */
+#app_tab_content>div{
+    height:550px;
+    overflow:auto;
+}
+
+
+/* NEW HISTORY */
+#history_links2 .site_history{
+    /*padding-top: 3px;*/
+}
+
+#history_links2 .history-icon{
+    padding-right: 5px;
+}
+
+
+#history_links2 .site_header{
+    cursor:pointer;
+    margin-top: 1px;
+    font-weight: 600;
+    border-bottom: 1px solid gainsboro;
+}
+
+#history_links2 .site_header.active{
+    background-color:gainsboro;
+}
+
+#history_links2 .site_header .header-title{
+    padding: 5px;
+}
+
+#history_links2 .site_header .site_instance_name {
+    font-size: 100%;
+    font-weight: 600;
+}
+
+#history_links2 .site_header .db-link{
+    /*color: white;*/
+    padding: 5px;
+}
+
+#history_links2 .site_history_links{
+    display:none;
+    list-style-type:none;
+}
+
+#history_links2 .site_history_links li{
+    padding: 3px 5px;
+}
+
+#history_links2 .site_history_links .clickableDiv{
+    color: black;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+#history_links2 .site_history_links .clickableDiv:hover{
+    text-decoration:underline;
+}
+
+
+/* LINKS TAB */
+#links_tab {
+    /*padding:0px;*/
+}
+
+#links_tab .jump_button{
+    border: none;
+    padding: 0px 6px;
+}
+#links_tab .jump_header{
+    font-weight: 600;
+}
+#links_tab .jump_item{
+    padding-left: 2em;
+}
+
+#server_links .server_link{
+    padding-top: 3px;
+}
+
+#server_links .server-icon{
+    padding-right: 5px;
+}
+
+
+#server_links .server_link-header{
+    background-color:#0974a1;
+    cursor:pointer;
+    color: white;
+    padding: 5px;
+    margin-top: 1px;
+}
+
+#server_links .server_link-header .instance-link{
+    color: white;
+}
+
+#server_links .server_link-dblist{
+    display:none;
+    padding-left:5px;
+    list-style-type:none;
+}
+
+#server_links .server_link-dblist li{
+    padding-top:3px;
+    padding-bottom: 3px;
+    font-size: .95em;
+}
+
+#server_links .server_link-dblist .clickableDiv{
+    color: black;
+}
+
+#server_links .server_link-dblist .clickableDiv:hover{
+    text-decoration:underline;
+}
+
+#server_links .server_link-back{
+    display:none;
+    padding-top: 1px;
+    font-size: 0.85em;
+    background-color:#eeeeef;
+}
+#server_links .server_link-back:hover{
+    background-color:#cdcfd2;
+}
+
+
+/*  SETTINGS TAB  */
+
+#settings_tab{
+    /*padding: 0px;*/
+    padding-bottom:10px;
+}
+
+#settings_form{
+    width: 100%;
+    height: 100%;
+}
+
+#settings_buttons{
+    text-align:right;
+    border-top: 1px solid #cdcfd2;
+}
+
+#server_settings{
+    height:100%;
+    vertical-align:top;
+    padding-top: 10px;
+}
+
+#server_tabs{
+    padding:5px;
+}
+
+/* Settings Form Tabs  */
+#set_server_forms > div {
+    display: none;
+}
+#set_instance_list {
+    display:none;
+}
+
+#set_server_list .list-group-item,
+#set_instance_list .list-group-item {
+    padding: 6px 10px;
+}
+
+#set_instance_list .instance_color {
+    padding: 5px;
+    float: right;
+    margin-top: 4px;
+}
+
+.simplecolorpicker > span[title="None"]{
+    border: 1px solid lightgray;
+}
+
+    
+#set_instance_forms > div {
+    display: none;
+}
+
+.set_form_header{
+    background-color:#0974a1;
+    cursor:pointer;
+    color: white;
+    padding: 5px;
+    /*font-size: 1rem;*/
+    margin-top: 1px;
+}
+
+.set_list_header{
+    /*font-size: 1rem;*/
+    margin: 5px;
+    font-size: 1.3rem;
+}
+
+#add_server {
+    padding: 0px;
+}
+
+
+.set_header_button{
+    border: none;
+    padding: 0px 6px;
+}
+
+.set_server_header {
+    padding-left: 10px;
+}
+
+.set_instance_header {
+    padding-left: 20px;
+}
+
+.help-text-input-group .input-group-text {
+    padding-right: .25rem;
+}
+
+.help-text-input-group .form-control {
+    padding-left: .25rem;
+}
+
+.instance_inject_border_color{
+    margin-left: 0px;
+}
+
+#add_current_server {
+    display:none;
+    margin-right: 20px;
+}

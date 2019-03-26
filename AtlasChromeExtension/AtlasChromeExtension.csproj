@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9D141603-1A9D-4EEC-82D8-C473EA436839}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AtlasChromeExtension</RootNamespace>
+    <AssemblyName>AtlasChromeExtension</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="app\background.js" />
+    <Content Include="app\content.css" />
+    <Content Include="app\content.js" />
+    <Content Include="app\functions.js" />
+    <Content Include="app\img\icon.png" />
+    <Content Include="app\inject.js" />
+    <Content Include="app\settings.js" />
+    <Content Include="app\plugins\bootstrap-4.2.1-dist\css\bootstrap-grid.css" />
+    <Content Include="app\plugins\bootstrap-4.2.1-dist\css\bootstrap-grid.min.css" />
+    <Content Include="app\plugins\bootstrap-4.2.1-dist\css\bootstrap-reboot.css" />
+    <Content Include="app\plugins\bootstrap-4.2.1-dist\css\bootstrap-reboot.min.css" />
+    <Content Include="app\plugins\bootstrap-4.2.1-dist\css\bootstrap.css" />
+    <Content Include="app\plugins\bootstrap-4.2.1-dist\css\bootstrap.min.css" />
+    <Content Include="app\plugins\bootstrap-4.2.1-dist\js\bootstrap.bundle.js" />
+    <Content Include="app\plugins\bootstrap-4.2.1-dist\js\bootstrap.bundle.min.js" />
+    <Content Include="app\plugins\bootstrap-4.2.1-dist\js\bootstrap.js" />
+    <Content Include="app\plugins\bootstrap-4.2.1-dist\js\bootstrap.min.js" />
+    <Content Include="app\plugins\colorpicker\bootstrap-colorselector.min.css" />
+    <Content Include="app\plugins\colorpicker\bootstrap-colorselector.min.js" />
+    <Content Include="app\plugins\colorpicker\jquery.simplecolorpicker-fontawesome.css" />
+    <Content Include="app\plugins\colorpicker\jquery.simplecolorpicker.css" />
+    <Content Include="app\plugins\colorpicker\jquery.simplecolorpicker.js" />
+    <Content Include="app\plugins\fontawesome\css\all.min.css" />
+    <Content Include="app\plugins\fontawesome\webfonts\fa-brands-400.svg" />
+    <Content Include="app\plugins\fontawesome\webfonts\fa-regular-400.svg" />
+    <Content Include="app\plugins\fontawesome\webfonts\fa-solid-900.svg" />
+    <Content Include="app\plugins\jquery\jquery-3.3.1.min.js" />
+    <Content Include="app\plugins\misc\jsoneditor.min.js" />
+    <Content Include="app\plugins\misc\popper.min.js" />
+    <Content Include="app\popup.html" />
+    <Content Include="app\popup.js" />
+    <Content Include="app\server_links.js" />
+    <Content Include="app\style.css" />
+    <Content Include="Properties\build\lib\Ionic.Zip.DLL" />
+    <Content Include="Properties\build\lib\MSBuild.ExtensionPack.dll" />
+    <Content Include="screenshots\screenshot.png" />
+    <Content Include="index.htm" />
+    <Content Include="Properties\build\ligershark.chrome.targets" />
+    <Content Include="screenshots\readme.txt" />
+    <Content Include="app\plugins\bootstrap-4.2.1-dist\css\bootstrap-grid.css.map" />
+    <Content Include="app\plugins\bootstrap-4.2.1-dist\css\bootstrap-grid.min.css.map" />
+    <Content Include="app\plugins\bootstrap-4.2.1-dist\css\bootstrap-reboot.css.map" />
+    <Content Include="app\plugins\bootstrap-4.2.1-dist\css\bootstrap-reboot.min.css.map" />
+    <Content Include="app\plugins\bootstrap-4.2.1-dist\css\bootstrap.css.map" />
+    <Content Include="app\plugins\bootstrap-4.2.1-dist\css\bootstrap.min.css.map" />
+    <Content Include="app\plugins\bootstrap-4.2.1-dist\js\bootstrap.bundle.js.map" />
+    <Content Include="app\plugins\bootstrap-4.2.1-dist\js\bootstrap.bundle.min.js.map" />
+    <Content Include="app\plugins\bootstrap-4.2.1-dist\js\bootstrap.js.map" />
+    <Content Include="app\plugins\bootstrap-4.2.1-dist\js\bootstrap.min.js.map" />
+    <Content Include="app\plugins\fontawesome\webfonts\fa-brands-400.eot" />
+    <Content Include="app\plugins\fontawesome\webfonts\fa-brands-400.ttf" />
+    <Content Include="app\plugins\fontawesome\webfonts\fa-brands-400.woff" />
+    <Content Include="app\plugins\fontawesome\webfonts\fa-brands-400.woff2" />
+    <Content Include="app\plugins\fontawesome\webfonts\fa-regular-400.eot" />
+    <Content Include="app\plugins\fontawesome\webfonts\fa-regular-400.ttf" />
+    <Content Include="app\plugins\fontawesome\webfonts\fa-regular-400.woff" />
+    <Content Include="app\plugins\fontawesome\webfonts\fa-regular-400.woff2" />
+    <Content Include="app\plugins\fontawesome\webfonts\fa-solid-900.eot" />
+    <Content Include="app\plugins\fontawesome\webfonts\fa-solid-900.ttf" />
+    <Content Include="app\plugins\fontawesome\webfonts\fa-solid-900.woff" />
+    <Content Include="app\plugins\fontawesome\webfonts\fa-solid-900.woff2" />
+    <None Include="scripts\_references.js" />
+    <None Include="scripts\chrome-api-vsdoc.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="app\manifest.json" />
+  </ItemGroup>
+  <ItemGroup />
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <!-- insert a condition to ensure that these are not imported -->
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" Condition="false" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="false and '$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>1530</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:46950/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <PropertyGroup>
+    <AppFolder Condition=" '$(AppFolder)'=='' ">app\</AppFolder>
+    <AppFileName Condition=" '$(AppFileName)'=='' ">$(AssemblyName).zip</AppFileName>
+    <BuildFolder Condition=" '$(BuildFolder)'=='' ">$(MSBuildProjectDirectory)\properties\build\</BuildFolder>
+    <BuildLib Condition=" '$(BuildLib)'=='' ">$(BuildFolder)Lib\</BuildLib>
+  </PropertyGroup>
+  <ItemGroup>
+    <AppFileNameItem Include="$(OutputPath)$(AppFilename)" />
+    <AppFolderItem Include="$(AppFolder)" />
+  </ItemGroup>
+  <PropertyGroup>
+    <LigerSharkChromeTargetsPath>$(BuildFolder)\ligershark.chrome.targets</LigerSharkChromeTargetsPath>
+  </PropertyGroup>
+  <Import Project="$(LigerSharkChromeTargetsPath)" Condition="Exists($(LigerSharkChromeTargetsPath))" />
+</Project>
