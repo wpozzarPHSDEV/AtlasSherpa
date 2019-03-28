@@ -48,6 +48,7 @@ $(function () {
 
         // Populate Settings Form
         initSettingsForm();
+        initSettingsEvents();
 
         // Init Server Links
         initServerLinks();
@@ -93,61 +94,12 @@ $(function () {
             chrome.history.search({
                 'text': 'webui/webshellpage.aspx?databasename', // Load CRM pages
                 'startTime': 31500000000, // one year in milliseconds (ish)
-                'maxResults': 1000
+                //'startTime': 2592000000, // one month in milliseconds (ish)
+                'maxResults': 200
             },
               function (historyItems) {
-                  var pages = [];
-                  for (var i in historyItems) {
-                      // Skip if there is no title
-                      if (!historyItems[i].title) {
-                          continue;
-                      }
-                      // Get title & section
-                      var title
-                      var title_match = /(?:(.*) - )?Blackbaud CRM$/;
-                      var match = title_match.exec(historyItems[i].title);
-                      // Skip the result if it doesn't match the CRM style
-                      if (!match) {
-                          continue;
-                      } else if (match.length > 1) {
-                          title = match[1];
-                      } else {
-                          title = match[0];
-                      }
-                      // Parse URL
-                      var parsedUrl = new URL(historyItems[i].url);
-                      // need to do this seperately because URL stops at #
-                      var searchParams = new URLSearchParams(parsedUrl.hash.substr(1));
-                      // Skip if it already exists in the list
-                      if (searchParams.get("recordId") in pages) {
-                          continue;
-                      }
-                      // Get item properties
-                      var page = {
-                          title: title,
-                          url: parsedUrl.href,
-                          id: searchParams.get("recordId"),
-                          database: parsedUrl.searchParams.get("databasename"),
-                          server: parsedUrl.host.indexOf('.') > 0 ? parsedUrl.hostname.substr(0, parsedUrl.host.indexOf('.')) : parsedUrl.hostname,
-                          server_hostname: parsedUrl.hostname,
-                          instance: parsedUrl.pathname.split('/')[1],
-                          pageid: searchParams.get("pageId"),
-                          last_visit_date: new Date(historyItems[i].lastVisitTime).toLocaleString('en-US'),
-                          last_visit_timestamp: historyItems[i].lastVisitTime,
-                          parsedUrl: parsedUrl,
-                          current_url: current_url.href
-                      };
-                      // add key
-                      page.site_key = page.server + page.instance + page.database
-                      // Create entry
-                      pages[page.id] = page;
-                  }
-                  // Sort by date last visited
-                  pages.sort(function (a, b) {
-                      return b.last_visit_timestamp - a.last_visit_timestamp;
-                  });
-                  // Create the initial recent list
-                  buildHistoryItems("recent_here", pages);
+                  // Create the history list
+                  buildHistoryItems(historyItems, current_url);
                   // add all of the click handlers
                   $('.clickableDiv').on('mouseup', function (ev) {
                       //ev.which == 1 == left

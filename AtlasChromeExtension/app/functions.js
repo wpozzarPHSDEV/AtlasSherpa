@@ -46,59 +46,103 @@ function b64EncodeUnicode(str) {
 
 /******* DOM  ******/
 /* HISTORY LINKS */
-function buildHistoryItems(divName, historyItems) {
+function buildHistoryItems(historyItems, current_url) {
     var thisserverdb = null;
     var currentServer = "";
     var currentInstance = "";
     var currentDB = "";
     var currentSiteKey = "";
 
-    var recent_thissite = [];
-    var recent_othersites = [];
-    var recent_sites = [];
     var recent_by_site = {};
 
+    // Parse and Sort the items
+    // They are already filtered by matching "webui/webshellpage.aspx?databasename"
     for (var i in historyItems) {
-        item = historyItems[i];
-        // Recent Sites
-        if (!(item.site_key in recent_by_site)) {
-            recent_by_site[item.site_key] = [];
+        var item = historyItems[i];
+
+        // Get title
+        var title = item.title.replace(" - Blackbaud CRM", "");
+        // Parse URL
+        var parsedUrl = new URL(item.url);
+        // need to do this seperately because URL stops at #
+        var searchParams = new URLSearchParams(parsedUrl.hash.substr(1));
+        // Set page properties
+        var page = {
+            title: title,
+            url: item.url,
+            //id: searchParams.get("recordId"),
+            database: parsedUrl.searchParams.get("databasename"),
+            server: parsedUrl.host.indexOf('.') > 0 ? parsedUrl.hostname.substr(0, parsedUrl.host.indexOf('.')) : parsedUrl.hostname,
+            server_hostname: parsedUrl.hostname,
+            instance: parsedUrl.pathname.split('/')[1],
+            pageid: searchParams.get("pageId"),
+            last_visit_date: new Date(item.lastVisitTime),
+            last_visit_timestamp: item.lastVisitTime,
+            parsedUrl: parsedUrl,
+            //current_url: current_url.href
+        };
+        // add key
+        page.site_key = page.server + page.instance + page.database
+        // Create entry
+        if (!(page.site_key in recent_by_site)) {
+            recent_by_site[page.site_key] = {};
         }
-        recent_by_site[item.site_key].push(item);
+        // dedupe
+        if (!(page.title in recent_by_site[page.site_key])) {
+            recent_by_site[page.site_key][page.title] = page;
+        }        
     }
+    // Sort by date last visited
+//    pages.sort(function (a, b) {
+ //       return b.last_visit_timestamp - a.last_visit_timestamp;
+  //  });
+
 
     // Now that we have the lists we can create the entries
     var history_links = $("#history_links2");
-    for (i in recent_by_site) {
-        if (recent_by_site[i].length == 0) { continue }
-        var site = recent_by_site[i][0];
-        var currentServer = Settings.servers.find(o => o.url.toUpperCase() == site.parsedUrl.hostname.toUpperCase());
-        var currentInstance = null;
-        if (currentServer) {
-            currentInstance = currentServer.instances.find(o => o.path.toUpperCase() == site.instance.toUpperCase());
-        }
-        var site_list = $(genHistorySite(site, currentServer, currentInstance)).appendTo(history_links);
+    for (var sitekey in recent_by_site) {
+        var site = recent_by_site[sitekey];
+        var first = true;
+        if (site.length == 0) { continue }
+        for (var pagekey in site) {
+            var page = site[pagekey];
+            if (first) {
+                // set up site
+                var currentServer = Settings.servers.find(o => o.url.toUpperCase() == page.parsedUrl.hostname.toUpperCase());
+                var currentInstance = null;
+                if (currentServer) {
+                    currentInstance = currentServer.instances.find(o => o.path.toUpperCase() == page.instance.toUpperCase());
+                }
+                var site_list = $(genHistorySite(page, currentServer, currentInstance)).appendTo(history_links);
 
-        // set instance color
-        if (currentInstance) {
-            if (currentInstance.color != "") {
-                //site_list.find('.site_header').css('box-shadow', `inset 0 -2px ${currentInstance.color}`);
-                site_list.find('.site_instance_name').css('background-color', currentInstance.color);
+                // set instance color
+                if (currentInstance) {
+                    if (currentInstance.color != "") {
+                        //site_list.find('.site_header').css('box-shadow', `inset 2px 0px ${currentInstance.color}`);
+                        site_list.find('.site_header').css('border-left', `5px solid ${currentInstance.color}`);
+                        //site_list.find('.site_history_links').css('border-left', `3px solid ${currentInstance.color}`);
+                        //site_list.find('.site_instance_name').css('background-color', currentInstance.color);
+                    }
+                }
+                first = false;
             }
+            // Create the page listing
+            site_list.find('.site_history_links').append(genHistorySiteItem(page));
         }
-        
-
-        recent_by_site[i].forEach(item => {
-            site_list.find('.site_history_links').append(genHistorySiteItem(item));
-        });
     }
 
     // Add the events
     $('.site_history .site_header').click(function () {
+        var showme = true;
+        if ($(this).hasClass('active')) {
+            showme = false;
+        }
         $('.site_history_links').hide();
         $('.site_history .site_header').removeClass('active');
-        $(this).addClass('active');
-        $(this).nextAll('ul').show();
+        if (showme) {
+            $(this).addClass('active');
+            $(this).nextAll('ul').show();
+        }
     });
 
     // Open the first one by default
@@ -142,8 +186,8 @@ function genHistorySiteItem(item) {
     
     return `
         <li class ="list-group-item d-flex">
-            <div data-href="${item.url}" title="${item.title}" class ="clickableDiv flex-grow-1 d-inline-flex">
-                <div class ="history-icon">${pageinfo ? pageinfo.icon: favicon}</div>
+            <div data-href="${item.url}" title="${item.last_visit_date.toLocaleString("en-US")}&#xA;${item.title}&#xA;${item.url}}" class ="clickableDiv flex-grow-1 d-inline-flex">
+                <div class ="history-icon">${pageinfo ? pageinfo.icon : favicon}</div>
                 <div>${item.title}</div>
             </div>
         </li>

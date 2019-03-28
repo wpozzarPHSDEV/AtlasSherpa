@@ -26,6 +26,21 @@ function obj_Instance(name, path, color) {
 
 
 /* DOM GENERATION */
+function clearSettings() {
+    var server_link_parent = "#set_server_list";
+    var instance_link_parent = "#set_instance_list";
+    var server_form_parent = "#set_server_forms";
+    var instance_form_parent = "#set_instance_forms";
+    console.log("clear");
+    console.log($(server_link_parent).children().not('.set_list_header'))
+    $(server_link_parent).children('a').remove();
+    console.log($(server_link_parent).children())
+    $(instance_link_parent).children().not('.set_list_header').remove();
+    $(server_form_parent).empty();
+    $(instance_form_parent).empty();
+    
+}
+
 function genServerSettings(server, serverid) {
     console.log(`genServerSettings: ${serverid}`);
     var formid = `set_${serverid}`;
@@ -152,6 +167,8 @@ function genColorPicker(current_color) {
 
 /* EVENTS */
 function show_general_settings() {
+    // Since this can be called from elsewhere we need to make sure the settings tab is visible
+    $('#settings_tab_link').tab('show');
     // General
     // Show General Form
     $('#set_general_forms .set_form_body').show();
@@ -226,9 +243,10 @@ function addServer(server_name, server_url, instance){
         instance_name = "BBAppFx(Default)";
     }
     newServer.instances.push(new obj_Instance(instance_name, instance, ""));
-    Settings.servers.push(newServer);
-    console.log(Settings);
-    var serverid = 's' + (Settings.servers.length - 1).toString();
+    //Settings.servers.push(newServer);
+    //console.log(Settings);
+    
+    var serverid = 's' + $('#set_server_list>a').length.toString();
     console.log(serverid);
     genServerSettings(newServer, serverid);
     // Show new server
@@ -237,6 +255,8 @@ function addServer(server_name, server_url, instance){
 
 
 function initSettingsForm() {
+    // Clear out any unsaved changes
+    clearSettings();
     //Populate Form
     $('#settings_username').val(Settings.username);
     $('#settings_servers').val(Settings.servers);
@@ -244,6 +264,10 @@ function initSettingsForm() {
         var serverid = 's' + index;
         genServerSettings(server, serverid);
     });
+}
+
+
+function initSettingsEvents() {
 
     // Add New Server
     $('#add_server').click(function () {
@@ -253,12 +277,20 @@ function initSettingsForm() {
     // General Header
     $('#set_general_forms .set_form_header').click(function () {
         show_general_settings();
-
     });
 
     // Save Settings
-    $('#save_settings').click(saveSettings)
+    $('#save_settings').click(function () {
+        saveSettings();
+        show_general_settings();
+    });
+    $('#cancel_settings').click(function () {
+        initSettingsForm();
+        show_general_settings();
+    });
+
 }
+
 
 function updateServerHooks(newLink, newForm) {
     //Settings Form Events
@@ -284,8 +316,8 @@ function updateServerHooks(newLink, newForm) {
         var currentServerID = $(this).data('serverid');
         var currentServerIndex = currentServerID.match(/\d+$/)[0];
         // Remove from settings object
-        Settings.servers.splice(currentServerIndex, 1);
-        console.log(Settings);
+        //Settings.servers.splice(currentServerIndex, 1);
+        //console.log(Settings);
 
         // Remove server from form
         $(`#set_server_list a[data-serverid='${currentServerID}']`).remove();
@@ -310,12 +342,12 @@ function updateServerHooks(newLink, newForm) {
         console.log(`serverid: ${currentServerIndex}`);
 
         var newInstance = new obj_Instance("New Instance", "", "");
-        Settings.servers[currentServerIndex].instances.push(newInstance);
-        console.log(Settings);
+        //Settings.servers[currentServerIndex].instances.push(newInstance);
+        //console.log(Settings);
 
         var serverid = currentServerID;
-        var instanceid = 'i' + (Settings.servers[currentServerIndex].instances.length - 1).toString();
-        genInstanceSettings(newInstance, serverid, instanceid);
+        var instanceid = 'i' + $(`#set_instance_list>a[data-serverid='${currentServerID}']`).length.toString();
+        genInstanceSettings(newInstance, Settings.servers[currentServerIndex], serverid, instanceid);
         // Show new Instance
         console.log(`showing instance: ${instanceid}`);
         show_instance_settings(serverid, instanceid);
@@ -347,8 +379,8 @@ function updateInstanceHooks(newLink, newForm) {
         var currentInstanceID = $(this).data('instanceid');
         var currentInstanceIndex = currentInstanceID.match(/\d+$/)[0];
         // Remove from server object
-        Settings.servers[currentServerIndex].instances.splice(currentInstanceIndex, 1);
-        console.log(Settings);
+        //Settings.servers[currentServerIndex].instances.splice(currentInstanceIndex, 1);
+        //console.log(Settings);
 
         // Remove instance from form
         $(`#set_instance_list a[data-instanceid='${currentInstanceID}']`).remove();
@@ -404,11 +436,15 @@ function saveSettings() {
     // Save settings
     chrome.storage.sync.set({ AtlasSherpaSettings: Settings }, function () {
         console.log('Value is set to ' + Settings);
+        // Refresh the Server Data
+        refreshServerData();
+        // reset the Settings UI
+        initSettingsForm();
+        // Go back to General Settings
+        show_general_settings();
+        // let them know
+        alert("Settings Saved");
     });
-
-    // Refresh the Server Data
-    refreshServerData();
-
 }
 
 function refreshServerData() {

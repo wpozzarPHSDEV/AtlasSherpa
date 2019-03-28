@@ -144,6 +144,26 @@ body {
 
 }
 
+/* width */
+::-webkit-scrollbar {
+  width: .5em;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
 /* Fix for tooltip flicker */
 .tooltip {
   pointer-events: none;
@@ -195,6 +215,10 @@ a {
 
 
 /* NEW HISTORY */
+#history_links2{
+    margin-left: 3px;
+}
+
 #history_links2 .site_history{
     /*padding-top: 3px;*/
 }
@@ -215,6 +239,10 @@ a {
     background-color:gainsboro;
 }
 
+#history_links2 .site_header:hover{
+    background-color:gainsboro;
+}
+
 #history_links2 .site_header .header-title{
     padding: 5px;
 }
@@ -232,6 +260,11 @@ a {
 #history_links2 .site_history_links{
     display:none;
     list-style-type:none;
+    max-height: 450px;
+    overflow-y: auto;
+    border-bottom: 1px solid gainsboro;
+    margin-left: 5px;
+    margin-right: 10px;
 }
 
 #history_links2 .site_history_links li{
@@ -251,7 +284,7 @@ a {
 
 /* LINKS TAB */
 #links_tab {
-    /*padding:0px;*/
+    margin-left: 3px;
 }
 
 #links_tab .jump_button{
@@ -270,20 +303,25 @@ a {
 }
 
 #server_links .server-icon{
-    padding-right: 5px;
+    padding: 0px 5px;
 }
 
 
 #server_links .server_link-header{
-    background-color:#0974a1;
+    /*background-color:#0974a1;
     cursor:pointer;
     color: white;
     padding: 5px;
+    margin-top: 1px;*/
+    cursor:pointer;
     margin-top: 1px;
+    font-weight: 600;
+    border-bottom: 1px solid gainsboro;
+    padding: 5px;
 }
 
 #server_links .server_link-header .instance-link{
-    color: white;
+    /*color: white;*/
 }
 
 #server_links .server_link-dblist{
@@ -295,7 +333,6 @@ a {
 #server_links .server_link-dblist li{
     padding-top:3px;
     padding-bottom: 3px;
-    font-size: .95em;
 }
 
 #server_links .server_link-dblist .clickableDiv{
@@ -330,8 +367,11 @@ a {
 }
 
 #settings_buttons{
-    text-align:right;
     border-top: 1px solid #cdcfd2;
+}
+
+#settings_buttons .btn{
+    margin: 5px;
 }
 
 #server_settings{
@@ -419,5 +459,5 @@ a {
 
 #add_current_server {
     display:none;
-    margin-right: 20px;
+    margin-right: 10px;
 }

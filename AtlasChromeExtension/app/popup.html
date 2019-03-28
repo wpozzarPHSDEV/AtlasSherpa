@@ -28,26 +28,28 @@
                 <li class="nav-item" title="Servers">
                     <a class="nav-link" data-toggle="tab" href="#links_tab"><i class="fas fa-server"></i></a>
                 </li>
+                <li class="nav-item" title="Settings">
+                    <a id="settings_tab_link" class="nav-link" data-toggle="tab" href="#settings_tab"><i class="fas fa-cog"></i></a>
+                </li>
                 <li class="nav-item flex-grow-1 d-flex justify-content-end">
-                    <button id="add_current_server" type="button" class="btn btn-success">Add This Server</button>
+                    <button id="add_current_server" type="button" class="btn btn-success">Add Server</button>
                     <div class="app-name">
                         Atlas Sherpa
                     </div>
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"></a>
                     <div class="dropdown-menu">
-                        <a id="settings_tab_link" class="dropdown-item" data-toggle="tab" href="#settings_tab"><i class="fas fa-cog"></i> Settings</a>
                         <a class="dropdown-item" href"#" id="refresh_data"><i class="fas fa-sync-alt"></i> Refresh Servers</a>
                     </div>
                 </li>
             </ul>
             <div id="app_tab_content" class="tab-content">
                 <!-- HISTORY -->
-                <div id="history_tab2" class="tab-pane container active">
+                <div id="history_tab2" class="tab-pane active">
                     <div id="history_links2">
                     </div>
                 </div>
                 <!-- CRM LINKS -->
-                <div id="links_tab" class="tab-pane container">
+                <div id="links_tab" class="tab-pane">
                     <div id="server_links">
                     </div>
                 </div>
@@ -77,8 +79,9 @@
                         </div>
                         <div id="set_instance_forms">
                         </div>
-                        <div class="mt-auto">
-                            <a href="#" class="btn btn-primary float-right" id="save_settings">Save</a>
+                        <div id="settings_buttons" class="mt-auto d-flex justify-content-end">
+                            <button type="button" class="btn btn-secondary" id="cancel_settings">Cancel</button>
+                            <button type="button" class="btn btn-primary" id="save_settings">Save</button>
                         </div>
                     </div>
                 </div>

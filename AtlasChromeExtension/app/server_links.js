@@ -20,8 +20,6 @@ function initServerLinkEvents(server_link) {
     //$('.server_link-header .header-title')
     $(server_link).find('.header-title').click(function () {
         var this_server = $(this).parents('.server_link');
-        console.log("this server_link");
-        console.log(this_server);
         // If it's currently active then go back to server list
         if (this_server.hasClass('active')) {
             this_server.removeClass('active');
@@ -50,7 +48,7 @@ function genServerInstanceLink(server, instance, link_parent) {
             <div class ="server_link-back">
                 <div class ="d-flex justify-content-center"><i class ="fas fa-chevron-up"></i></div>
             </div>
-            <div class ="server_link-header d-flex" style="box-shadow:inset 0 -2px ${instance.color}">
+            <div class ="server_link-header d-flex" style="border-left: 5px solid ${instance.color}">
                 <div class ="d-inline-flex flex-grow-1 header-title">
                     <div class ="server-icon"><i class ="fas fa-sync fa-spin"></i></div>
                     <div>${instance.name} (${server.name})</div>

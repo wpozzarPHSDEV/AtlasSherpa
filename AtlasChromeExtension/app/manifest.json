@@ -3,7 +3,7 @@
 
   "name": "Atlas Sherpa",
   "description": "Guides you through Atlas",
-  "version": "1.0.2",
+  "version": "1.0.3",
 
   "permissions": [
 		"history",
