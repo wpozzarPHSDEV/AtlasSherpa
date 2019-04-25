@@ -33,5 +33,5 @@
       "run_at": "document_end"
     }
   ],
-  "web_accessible_resources": ["inject.js", "*.png"]
+  "web_accessible_resources": ["*.png"]
 }

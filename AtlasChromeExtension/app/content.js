@@ -1,4 +1,4 @@
-﻿
+﻿/* testing injection
 // Injected Script
 var s = document.createElement('script');
 s.src = chrome.extension.getURL('inject.js');
@@ -12,7 +12,7 @@ document.addEventListener('WSP_connectExtension', function (e) {
     console.log("I heard you!");
     console.log(e.detail);
 });
-
+*/
 // Wait until the page is actually loaded
 var waitCounter = 0;
 var checkExist = setInterval(function () {
@@ -131,30 +131,6 @@ function afterPageLoad() {
             });
         }
 
-
-
-        // Atlas Header
-        // Hide the banner
-        $(".bbui-pages-banner").css({ "visibility": "hidden" });
-        
-//        // Set up text
-//        //var site_name = currentServer ? currentServer.name : current_page.server_name;
-//        //var instance_name = currentInstance ? currentInstance.name : current_page.instance;
-//        // get height for spacing
-//        var height = $(".bbui-pages-header-left").outerHeight();
-
-//        var atlas_header = `
-//            <div id="sherpa-header">
-//                <div id="first_row">${instance_name}</div>
-//                <div id="second_row">${current_page.database}</div>
-//            </div>
-//            `;
-////        atlas_header = $(atlas_header).appendTo("body");
-//        atlas_header.css("height", height);
-//        if (border_color.length) {
-//            //atlas_header.css("box-shadow", "inset 0 -2px " + border_color);
-//            atlas_header.css("background", border_color);
-//        }
     });
 }
 
