@@ -216,6 +216,9 @@ function getDatabaseInfoBackground(server, instance, link_parent) {
             } else {
                 //Still Working
                 console.log("STILL WORKING: " + url);
+                // wait a while and try again
+                setTimeout(getDatabaseInfoBackground(server, instance, link_parent), 10000);
+
             }
         } else {
             // Weird Error

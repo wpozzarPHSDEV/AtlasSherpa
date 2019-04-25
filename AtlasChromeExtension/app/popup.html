@@ -3,6 +3,7 @@
 <head>
     <title>Atlas Sherpa</title>
     <!-- CSS -->
+    <link href="./plugins/jqueryui/jquery-ui.min.css" rel="stylesheet">
     <link href="./plugins/bootstrap-4.2.1-dist/css/bootstrap.min.css" rel="stylesheet" >
     <link href="./plugins/fontawesome/css/all.min.css" rel="stylesheet"> <!-- Font Awesome -->
     <link href="./plugins/colorpicker/jquery.simplecolorpicker.css" rel="stylesheet" />
@@ -10,8 +11,10 @@
 
     <!-- JS -->
     <script src="./plugins/jquery/jquery-3.3.1.min.js"></script>
+    <script src="./plugins/jqueryui/jquery-ui.min.js"></script>
     <script src="./plugins/bootstrap-4.2.1-dist/js/bootstrap.bundle.min.js"></script>
     <script src="plugins/colorpicker/jquery.simplecolorpicker.js"></script>
+
     <!-- MY JS -->
     <script src="settings.js"></script>
     <script src="functions.js"></script>
@@ -29,7 +32,7 @@
                     <a class="nav-link" data-toggle="tab" href="#links_tab"><i class="fas fa-server"></i></a>
                 </li>
                 <li class="nav-item" title="Settings">
-                    <a id="settings_tab_link" class="nav-link" data-toggle="tab" href="#settings_tab"><i class="fas fa-cog"></i></a>
+                    <a id="settings_tab_link" class="nav-link" data-toggle="tab" href="#settings_tab"><i class="fas fa-cog"></i><i id="settings_warning_icon" class="fas fa-exclamation-triangle tab-notification-warning"></i></a>
                 </li>
                 <li class="nav-item flex-grow-1 d-flex justify-content-end">
                     <button id="add_current_server" type="button" class="btn btn-success">Add Server</button>

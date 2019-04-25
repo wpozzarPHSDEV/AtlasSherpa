@@ -31,3 +31,58 @@
 #sherpa-header #first_row{
     font-size: 1em;
 }
+
+#atlas_nav {
+    position: absolute;
+    top: 0;
+    display: flex;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+#atlas_left {
+    display: flex;
+    align-items: center;
+}
+
+#atlas_middle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+#atlas_right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+#atlas_nav #db_title {
+    text-align: center;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+#atlas_nav #first_row{
+    font-weight:600;
+    font-size: 1em;
+}
+
+#atlas_nav #second_row{
+    font-weight:600;
+    font-size: 1.3em;
+}
+
+#atlas_nav .atlas-stop-runas {
+    border: 0;
+    background: none;
+    box-shadow: none;
+    border-radius: 0px;
+    outline: none;
+    background-color: red;
+    padding: 5px;
+    border-radius: 5px;
+    font-weight:600;
+
+}

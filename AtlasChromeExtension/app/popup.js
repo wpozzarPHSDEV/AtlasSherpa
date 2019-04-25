@@ -11,12 +11,8 @@ crmdev.partners.org:CRM_DesVal,CRM_DesignSandbox,CRM_ConvVal
 // Background.js Listener
 // Not used
 chrome.runtime.onMessage.addListener(function (response, sender, sendResponse) {
-    console.log("request caught");
-    console.log(response);
     switch (response.type) {
         case "serviceInfo":
-            console.log("serviceInfo");
-            console.log(response);
             processServiceInfoResponse(response);
             break;
     }
@@ -42,9 +38,6 @@ $(function () {
         if (!Settings) {
             Settings = new obj_Settings();
         }
-
-        console.log("settings");
-        console.log(Settings);
 
         // Populate Settings Form
         initSettingsForm();
@@ -79,8 +72,6 @@ $(function () {
             }
             // Click event to add current server (assumes that this is a valid server to add)
             $('#add_current_server').click(function () {
-                console.log("add current server");
-                console.log(current_url);
                 var currentServer = current_url.hostname;
                 var currentServerName = currentServer.substr(0, currentServer.indexOf('.'))
                 var currentInstance = current_url.pathname.split('/')[1];

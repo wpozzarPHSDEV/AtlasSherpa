@@ -11,7 +11,6 @@ function initServerSettingsTabs() {
 
 /**** EVENTS ******/
 function divClick_newtab(url) {
-    console.log("middle clicked" + url);
     chrome.tabs.create({
         selected: true,
         url: url
@@ -21,7 +20,6 @@ function divClick_newtab(url) {
 }
 
 function divClick_sametab(url) {
-    console.log("clicked" + url);
     chrome.tabs.query({ currentWindow: true, active: true }, function (tab) {
         chrome.tabs.update(tab.id, { url: url });
     });
@@ -71,7 +69,8 @@ function buildHistoryItems(historyItems, current_url) {
             title: title,
             url: item.url,
             //id: searchParams.get("recordId"),
-            database: parsedUrl.searchParams.get("databasename"),
+            database: parsedUrl.searchParams.has("databasename") ? parsedUrl.searchParams.get("databasename") : parsedUrl.searchParams.get("databaseName"),
+            runas: parsedUrl.searchParams.get("runas"),
             server: parsedUrl.host.indexOf('.') > 0 ? parsedUrl.hostname.substr(0, parsedUrl.host.indexOf('.')) : parsedUrl.hostname,
             server_hostname: parsedUrl.hostname,
             instance: parsedUrl.pathname.split('/')[1],
@@ -81,6 +80,21 @@ function buildHistoryItems(historyItems, current_url) {
             parsedUrl: parsedUrl,
             //current_url: current_url.href
         };
+        // fix page id if it's not a page
+        switch (searchParams.get("pageType")){
+            case "p":
+                page.pageid = searchParams.get("pageId");
+                break;
+            case "fa":
+                page.pageid = searchParams.get("faId");
+                break;
+            case "fs":
+                page.pageid = "search";
+                break;
+            default:
+                page.pageid = ""
+                break;
+        }
         // add key
         page.site_key = page.server + page.instance + page.database
         // Create entry
@@ -88,8 +102,8 @@ function buildHistoryItems(historyItems, current_url) {
             recent_by_site[page.site_key] = {};
         }
         // dedupe
-        if (!(page.title in recent_by_site[page.site_key])) {
-            recent_by_site[page.site_key][page.title] = page;
+        if (!(page.url in recent_by_site[page.site_key])) {
+            recent_by_site[page.site_key][page.url] = page;
         }        
     }
     // Sort by date last visited
@@ -104,6 +118,8 @@ function buildHistoryItems(historyItems, current_url) {
         var site = recent_by_site[sitekey];
         var first = true;
         if (site.length == 0) { continue }
+
+        // Populate the History tab for this site
         for (var pagekey in site) {
             var page = site[pagekey];
             if (first) {
@@ -158,10 +174,6 @@ function genHistorySite(site, linkedServer, linkedInstance) {
     var site_name = linkedServer ? linkedServer.name : site.server;
     var instance_name = linkedInstance ? linkedInstance.name : site.instance;
 
-    console.log("Gen History " + site.server);
-    console.log(site);
-
-
     return `
         <div class="site_history">
             <div class="site_header d-flex">
@@ -181,14 +193,19 @@ function genHistorySite(site, linkedServer, linkedInstance) {
 
 
 function genHistorySiteItem(item) {
-    var pageinfo = KnownPages.find(page => page.id == item.pageid);
-    var favicon = `<i class="fas fa-atlas"></i>`;
+    var pageinfo = KnownPages.find(page => page.id.toUpperCase() == item.pageid.toUpperCase());
+    //var favicon = `<i class="fas fa-atlas"></i>`;
+    var defaultimg = 'img/Blackbaud/AppFx/browser/imagelibrary/__small/goto_round.png';
     
     return `
         <li class ="list-group-item d-flex">
             <div data-href="${item.url}" title="${item.last_visit_date.toLocaleString("en-US")}&#xA;${item.title}&#xA;${item.url}}" class ="clickableDiv flex-grow-1 d-inline-flex">
-                <div class ="history-icon">${pageinfo ? pageinfo.icon : favicon}</div>
-                <div>${item.title}</div>
+                <div class ="history-icons">
+                    <img src="${pageinfo ? pageinfo.img: defaultimg}" />
+                    
+                    ${item.runas ? '<i title="' + item.runas + '" class="fas fa-user-friends"></i>': ''}
+                </div>
+                <div class ="history-title">${item.title}</div>
             </div>
         </li>
        `;

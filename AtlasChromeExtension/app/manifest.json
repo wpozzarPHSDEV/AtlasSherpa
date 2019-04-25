@@ -3,7 +3,7 @@
 
   "name": "Atlas Sherpa",
   "description": "Guides you through Atlas",
-  "version": "1.0.3",
+  "version": "1.0.4",
 
   "permissions": [
 		"history",
@@ -22,11 +22,16 @@
   },
   "content_scripts": [
     {
-      "matches": [ "http://*.partners.org/*webui/webshellpage.aspx?databasename*", "https://*.partners.org/*webui/webshellpage.aspx?databasename*" ],
+      "matches": [
+        "http://*.partners.org/*webui/webshellpage.aspx?databasename*",
+        "https://*.partners.org/*webui/webshellpage.aspx?databasename*",
+        "http://*.partners.org/*webui/WebShellPage.aspx?databaseName*",
+        "https://*.partners.org/*webui/WebShellPage.aspx?databaseName*"
+      ],
       "js": [ "./plugins/jquery/jquery-3.3.1.min.js", "content.js" ],
       "css":  ["content.css"],
       "run_at": "document_end"
     }
   ],
-  "web_accessible_resources": ["inject.js"]
+  "web_accessible_resources": ["inject.js", "*.png"]
 }
