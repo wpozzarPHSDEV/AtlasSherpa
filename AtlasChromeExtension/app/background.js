@@ -58,6 +58,7 @@ function doAJAX(item) {
         _request_item : item,
         beforeSend: function (xhr) {
             xhr.setRequestHeader("Authorization", "Basic " + auth);
+            xhr.url = url;
         }
     }).done(onAJAXSuccess).fail(onAJAXFailure);
 }
@@ -115,6 +116,7 @@ function onAJAXSuccess(data) {
     //chrome.runtime.sendMessage(response);
 }
 
+
 function onAJAXFailure(xhr, ajaxOptions, thrownError) {
     console.log("AJAXFail");
     console.log(ProcessQueue);
@@ -122,16 +124,13 @@ function onAJAXFailure(xhr, ajaxOptions, thrownError) {
     console.log(xhr);
     console.log(xhr.url);
     console.log(ajaxOptions);
+    console.log(xhr.status);
+    console.log(xhr.statusCode);
 
-    if (xhr.url) {
-        //Update Process Queue
-        ProcessQueue[xhr.url].done = true;
-        ProcessQueue[xhr.url].error = true;
-        ProcessQueue[xhr.url].error_message = thrownError;
-    } else {
-        console.log("blank error");
-        // How to remove if blank?
-    }
+    //Update Process Queue
+    ProcessQueue[xhr.url].done = true;
+    ProcessQueue[xhr.url].error = true;
+    ProcessQueue[xhr.url].error_message = (thrownError != "") ? thrownError : "Network Error (Unreachable)";
 
 }
 

@@ -32,6 +32,39 @@ $(function () {
         refreshServerData();
     });
 
+    // History Search
+    $("#history_search_input").on("keyup", function () {
+        var value = $(this).val().toLowerCase();
+        // reset if search it blank
+        if (value == "") {
+            console.log("empty search");
+            $('.site_history_links').hide();
+            //$('.site_history .site_header.active').nextAll('ul').show();
+        }
+
+        // Process search
+        $(".site_history_links li").each(function () {
+            if ($(this).find(".history-title").html().toLowerCase().indexOf(value) == -1) {
+                $(this).addClass("nomatch");
+            } else {
+                $(this).removeClass("nomatch");
+            }
+            //$(this).toggle($(this).find(".history-title").html().toLowerCase().indexOf(value) > -1)
+        });
+        // Hide sites with no results and open sites with results
+        $(".site_history").each(function () {
+            if ($(this).find(".site_history_links li:not(.nomatch)").length > 0) {
+                //$(this).addClass("nomatch");
+                $(this).show();
+                $(this).find(".site_history_links").show();
+            } else {
+                //$(this).removeClass("nomatch");
+                $(this).hide();
+            }
+            console.log("numvisible: " + $(this).find(".site_history_links li:not(.nomatch)").length);
+        });
+    });
+
     // Load settings
     chrome.storage.sync.get(['AtlasSherpaSettings'], function (result) {
         Settings = result.AtlasSherpaSettings;

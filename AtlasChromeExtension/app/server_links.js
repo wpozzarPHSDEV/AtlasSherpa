@@ -45,9 +45,11 @@ function genServerInstanceLink(server, instance, link_parent) {
     
     var server_link_html = `
         <div class ="server_link" data-serverurl="${server.url}" data-instancepath="${instance.path}">
+            <!--
             <div class ="server_link-back">
                 <div class ="d-flex justify-content-center"><i class ="fas fa-chevron-up"></i></div>
             </div>
+            -->
             <div class ="server_link-header d-flex" style="border-left: 5px solid ${instance.color}">
                 <div class ="d-inline-flex flex-grow-1 header-title">
                     <div class ="server-icon"><i class ="fas fa-sync fa-spin"></i></div>
@@ -70,6 +72,17 @@ function genServerInstanceLink(server, instance, link_parent) {
     //getDatabaseInfoBackground(server, instance);
 }
 
+function genServerError(error_text, server, instance) {
+    var instance_div = $(`.server_link[data-serverurl="${server.url}"][data-instancepath="${instance.path}"]`);
+    var instance_icon = instance_div.find('.server-icon');
+
+    // Turn off the spinner
+    instance_icon.html('<i class="fas fa-server text-danger"></i>');
+    // Set the error as the title
+    instance_icon.prop('title', error_text);
+
+}
+
 function genDatabaseLinks(databases, server, instance, link_parent) {
 
     var instance_div = $(`.server_link[data-serverurl="${server.url}"][data-instancepath="${instance.path}"]`);
@@ -77,15 +90,6 @@ function genDatabaseLinks(databases, server, instance, link_parent) {
     
     // Turn off the spinner
     instance_icon.html('<i class="fas fa-server"></i>');
-    // Check for error
-    if (databases == null) {
-        // No database info = error
-        // Set the icon to error
-        instance_icon.addClass('text-danger');
-        return;
-    };
-
-    // At this point we have databases so we are good to go
 
     var instance_node = instance_div.find('.server_link-dblist');
 
@@ -206,18 +210,21 @@ function getDatabaseInfoBackground(server, instance, link_parent) {
                     // Error :(
                     console.log("getServiceInfo - ERROR: " + url);
                     console.log(response.error_message);
+                    genServerError(response.error_message, server, instance);
                 } else {
                     // Success
                     console.log("Success! " + url);
                     dbs = $(response.response.data).find('DatabaseInfo>AvailableDatabase');
-                    
+                    genDatabaseLinks(dbs, server, instance, link_parent);
                 }
-                genDatabaseLinks(dbs, server, instance, link_parent);
+                
             } else {
                 //Still Working
                 console.log("STILL WORKING: " + url);
                 // wait a while and try again
-                setTimeout(getDatabaseInfoBackground(server, instance, link_parent), 10000);
+                //setTimeout(getDatabaseInfoBackground(server, instance, link_parent), 10000);
+                setTimeout(function () { getDatabaseInfoBackground(server, instance, link_parent); }, 10000);
+
 
             }
         } else {

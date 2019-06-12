@@ -255,6 +255,10 @@ a {
     padding: 5px;
 }
 
+#history_links2 .site_header .site_info {
+    text-align:center;
+}
+
 #history_links2 .site_header .site_instance_name {
     font-size: 100%;
     font-weight: 600;
@@ -277,6 +281,7 @@ a {
 
 #history_links2 .site_history_links li{
     padding: 3px 5px;
+    overflow: hidden;
 }
 
 #history_links2 .site_history_links .clickableDiv{
@@ -289,6 +294,30 @@ a {
     text-decoration:underline;
 }
 
+ /* Search */
+#history_links2 .nomatch{
+    display:none;
+}
+
+#history_tab2 .has-search{
+    margin: 0px;
+}
+
+.has-search .form-control {
+  padding-left: 2.375rem;
+}
+
+.has-search .form-control-feedback {
+  position: absolute;
+  z-index: 2;
+  display: block;
+  width: 2.375rem;
+  height: 2.375rem;
+  line-height: 2.375rem;
+  text-align: center;
+  pointer-events: none;
+  color: #aaa;
+}
 
 /* LINKS TAB */
 #links_tab {

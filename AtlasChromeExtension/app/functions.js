@@ -178,12 +178,14 @@ function genHistorySite(site, linkedServer, linkedInstance) {
         <div class="site_history">
             <div class="site_header d-flex">
                 <div class="d-inline-flex flex-grow-1 header-title">
-                    <div class ="flex-grow-1">${site.database}</div>
-                    <!--<div class ="site_instance_name">${instance_name}</div>-->
-                    <span class ="site_instance_name badge ">${instance_name}</span>
+                    <div>${site.database}</div>
+                    <div class ="site_info flex-grow-1">
+                        
+                    </div>
+                    <div class="site_instance_name">${instance_name}</div>
                 </div>
-                <div class ="clickableDiv db-link" data-href="https://${site.server_hostname}/${site.instance}/webui/webshellpage.aspx?databasename=${site.database}" title="DB Home">
-                    <i class ="fas fa-external-link-square-alt"></i>
+                <div class ="clickableDiv db-link" data-href="https://${site.server_hostname}/${site.instance}/webui/webshellpage.aspx?databasename=${site.database}" title="Go to Home">
+                    <i class ="fas fa-home"></i>
                 </div>
             </div>
             <ul class ="site_history_links list-group"></ul>
@@ -198,7 +200,7 @@ function genHistorySiteItem(item) {
     var defaultimg = 'img/Blackbaud/AppFx/browser/imagelibrary/__small/goto_round.png';
     
     return `
-        <li class ="list-group-item d-flex">
+        <li class ="list-group-item">
             <div data-href="${item.url}" title="${item.last_visit_date.toLocaleString("en-US")}&#xA;${item.title}&#xA;${item.url}}" class ="clickableDiv flex-grow-1 d-inline-flex">
                 <div class ="history-icons">
                     <img src="${pageinfo ? pageinfo.img: defaultimg}" />
