@@ -1259,6 +1259,8 @@
     <Content Include="app\inject.js" />
     <Content Include="app\plugins\jqueryui\jquery-ui.min.css" />
     <Content Include="app\plugins\jqueryui\jquery-ui.min.js" />
+    <Content Include="app\plugins\tooltipster\tooltipster.bundle.min.css" />
+    <Content Include="app\plugins\tooltipster\tooltipster.bundle.min.js" />
     <Content Include="app\settings.js" />
     <Content Include="app\plugins\bootstrap-4.2.1-dist\css\bootstrap-grid.css" />
     <Content Include="app\plugins\bootstrap-4.2.1-dist\css\bootstrap-grid.min.css" />

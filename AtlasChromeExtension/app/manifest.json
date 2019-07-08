@@ -3,15 +3,13 @@
 
   "name": "Atlas Sherpa",
   "description": "Guides you through Atlas",
-  "version": "1.0.4",
+  "version": "1.0.6",
 
   "permissions": [
 		"history",
     "activeTab",
     "storage",
-    "https://ajax.googleapis.com/",
-    "https://*.partners.org/*",
-    "chrome://favicon/*"
+    "https://ajax.googleapis.com/"
   ],
   "browser_action": {
     "default_icon": "img/icon.png",
@@ -23,13 +21,13 @@
   "content_scripts": [
     {
       "matches": [
-        "http://*.partners.org/*webui/webshellpage.aspx?databasename*",
-        "https://*.partners.org/*webui/webshellpage.aspx?databasename*",
-        "http://*.partners.org/*webui/WebShellPage.aspx?databaseName*",
-        "https://*.partners.org/*webui/WebShellPage.aspx?databaseName*"
+        "http://*/*webui/webshellpage.aspx?databasename*",
+        "https://*/*webui/webshellpage.aspx?databasename*",
+        "http://*/*webui/WebShellPage.aspx?databaseName*",
+        "https://*/*webui/WebShellPage.aspx?databaseName*"
       ],
-      "js": [ "./plugins/jquery/jquery-3.3.1.min.js", "content.js" ],
-      "css":  ["content.css"],
+      "js": [ "./plugins/jquery/jquery-3.3.1.min.js", "./plugins/tooltipster/tooltipster.bundle.min.js", "content.js" ],
+      "css":  ["./plugins/tooltipster/tooltipster.bundle.min.css", "content.css"],
       "run_at": "document_end"
     }
   ],
