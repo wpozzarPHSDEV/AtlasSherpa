@@ -26,8 +26,8 @@
         "http://*/*webui/WebShellPage.aspx?databaseName*",
         "https://*/*webui/WebShellPage.aspx?databaseName*"
       ],
-      "js": [ "./plugins/jquery/jquery-3.3.1.min.js", "./plugins/tooltipster/tooltipster.bundle.min.js", "content.js" ],
-      "css":  ["./plugins/tooltipster/tooltipster.bundle.min.css", "content.css"],
+      "js": [ "./plugins/jquery/jquery-3.3.1.min.js", "./plugins/bootstrap-4.2.1-dist/js/bootstrap.bundle.min.js", "content.js" ],
+      "css":  ["./plugins/bootstrap-4.2.1-dist/css/bootstrap.min.css", "content.css"],
       "run_at": "document_end"
     }
   ],

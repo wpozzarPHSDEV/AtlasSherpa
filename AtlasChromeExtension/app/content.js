@@ -31,147 +31,132 @@ var checkExist = setInterval(function () {
     }
 }, 100); // check every 100ms
 
+/* Global */
+var current_page;
+var atlas_left;
+var atlas_middle;
+var atlas_right;
 
 function afterPageLoad() {
     // Load settings
     chrome.storage.sync.get(['AtlasSherpaSettings'], function (result) {
         var Settings = result.AtlasSherpaSettings;
-        console.log("content settings");
-        console.log(Settings);
 
         var showOverlay = true;
 
         if (showOverlay) {
 
             // Get the settings for this page
-            // Parse URL
-            var parsedUrl = new URL(window.location.href);
-            // need to do this seperately because URL stops at #
-            var searchParams = new URLSearchParams(parsedUrl.hash.substr(1));
-            console.log("url");
-            console.log(parsedUrl);
-            // Get item properties
-            var current_page = {
-                database: parsedUrl.searchParams.has("databasename") ? parsedUrl.searchParams.get("databasename") : parsedUrl.searchParams.get("databaseName"),
-                runas: parsedUrl.searchParams.get("runas"),
-                server: parsedUrl.hostname,
-                server_name: parsedUrl.hostname.substr(0, parsedUrl.host.indexOf('.')),
-                instance: parsedUrl.pathname.split('/')[1],
-                parsedUrl: parsedUrl
-            };
-
-            var currentServer = Settings.servers.find(o => o.url.toUpperCase() == current_page.server.toUpperCase());
-            var currentInstance = null;
-            if (currentServer) {
-                currentInstance = currentServer.instances.find(o => o.path.toUpperCase() == current_page.instance.toUpperCase());
-            }
-
-            // If there is an instance then use settings
-            var border_color = "";
-            if (currentInstance) {
-                border_color = currentInstance.color;
-                //if (border_color.length) {
-                //    $(".bbui-pages-header-title").css("box-shadow", "inset 0 -5px " + border_color);
-                //}
-            }
+            initPageData(Settings);
 
 
-            // Set up text
-            var site_name = currentServer ? currentServer.name : current_page.server_name;
-            var instance_name = currentInstance ? currentInstance.name : current_page.instance;
+            // Generate the scaffolding
+            genScaffolding();
 
-
-            // Positioning
-            console.log("ATLAS POSITIONING");
-            console.log($('.bbui-pages-header-left').position());
-            console.log($('.bbui-pages-header-right').position());
-
-            // Get the left and right header elements
-            var bbui_left = $('.bbui-pages-header-left');
-            var bbui_right = $('.bbui-pages-header-right');
-
-            // Set the height and width of space between the elements
-            var nav_left = bbui_left.position().left + bbui_left.outerWidth();
-            var nav_height = bbui_left.outerHeight();
-            var nav_width = bbui_right.position().left - nav_left - 40;
-
-            // Create a scaffolding for the space
-            var atlas_nav = `
-                <div id="atlas_nav">
-                    <div id="atlas_left"></div>
-                    <div id="atlas_middle"></div>
-                    <div id="atlas_right"></div>
-                </div>
-                `;
-            // Insert the scaffolding
-            atlas_nav = $(atlas_nav).appendTo("body");
-            // Set the calculated height & width
-            atlas_nav.css("left", nav_left);
-            atlas_nav.css("width", nav_width);
-            atlas_nav.css("height", nav_height);
-
-            var atlas_left = $('#atlas_left');
-            var atlas_middle = $('#atlas_middle');
-            var atlas_right = $('#atlas_right');
 
             // Database Title
-            var site_instance_name = site_name;
-            if (site_name != instance_name) {
-                site_instance_name += "/" + instance_name;
-            }
-            var html = `
-                <div id="db_title">
-                    <div id="first_row">${site_instance_name}</div>
-                    <div id="second_row">${current_page.database}</div>
-                </div>
-            `;
-            atlas_right.append(html);
-            if (border_color.length) {
-                //atlas_nav.css("box-shadow", "inset 0 -2px " + border_color);
-                $('#db_title').css("background", border_color);
-            }
+            genDBDisplay();
+
+
+            // Object Lookup
+            genLookup();
 
 
             //ID Dropdown
-            var html = `
-<div class ="dropdown">
-  <button class ="dropbtn">IDs</button>
-  <table id="idlist" class ="dropdown-content">
-  </table>
-</div>
-            `;
-            atlas_right.prepend(html);
-            // populate the list the first time
-            updateIdDropdown();
-            // make sure it is updated as the hash changes
-            window.onhashchange = function () { updateIdDropdown(); };
+            genIDCopy();
 
             // Stop Runas
-            console.log(current_page.runas);
             if (current_page.runas) {
-                var html = `
-                <div id="stop_runas_div">
-                    <button id="stop_runas">
-                        Stop running as: ${current_page.runas}
-                    </button>
-                </div>
-            `;
-                atlas_middle.append(html);
-
-                $('#stop_runas').click(function () {
-                    // Reload the page without the runas parameter
-                    var parsedUrl = new URL(window.location.href);
-                    parsedUrl.searchParams.delete("runas");
-                    window.location.href = parsedUrl.href;
-                });
+                genStopRunAs();
             }
         }
 
     });
 }
 
+function genLookup() {
+    //Object Lookup
+    var html = `
+<button type="button" class ="btn btn-primary btn-sm header-button" data-toggle="modal" data-target="#lookupModal">
+  Lookup Object
+</button>
+<div class ="modal fade" id="lookupModal" tabindex="-1" role="dialog" aria-labelledby="lookupModalLabel" aria-hidden="true">
+  <div class ="modal-dialog" role="document">
+    <div class ="modal-content">
+      <div class ="modal-header">
+        <h5 class ="modal-title" id="lookupModalLabel">Lookup Object</h5>
+        <button type="button" class ="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times; </span>
+        </button>
+      </div>
+      <div class ="modal-body">
+        <form id="lookupForm">
+          <div class ="form-group form-row">
+            <label class ="col-sm-3">Data Form Instance: </label>
+            <input type="text" class ="form-control col-sm-8" placeholder="Enter Data Form Instance GUID" data-hash="#pageType=p&pageId=72b7e66e-16e9-4eb1-a501-9a80459f6c35&recordId=">
+            <button type="button" class ="btn btn-primary lookupGo col-sm-1">Go</button>
+          </div>
+          <div class ="form-group form-row">
+            <label class ="col-sm-3">Data List: </label>
+            <input type="text" class ="form-control col-sm-8" placeholder="Enter Data List GUID" data-hash="#pageType=p&pageId=a414218c-ce24-44c7-95a9-fcd0a2aa5034&recordId=">
+            <button type="button" class ="btn btn-primary lookupGo col-sm-1">Go</button>
+          </div>
+          <div class ="form-group form-row">
+            <label class ="col-sm-3">Page Lookup: </label>
+            <input type="text" class ="form-control col-sm-8" placeholder="Enter Page GUID" data-hash="#pageType=p&pageId=cced6699-16a1-4c28-84bb-8cb59f9c2d6d&recordId=">
+            <button type="button" class ="btn btn-primary lookupGo col-sm-1">Go</button>
+          </div>
+          <div class ="form-group form-row">
+            <label class ="col-sm-3">Simple Data List: </label>
+            <input type="text" class ="form-control col-sm-8" placeholder="Enter Simple Data List GUID" data-hash="#pageType=p&pageId=7fc93169-c4bf-406f-818e-62681c036f1b&recordId=">
+            <button type="button" class ="btn btn-primary lookupGo col-sm-1">Go</button>
+          </div>
+          <div class ="form-group form-row">
+            <label class ="col-sm-3">Code Table Lookup: </label>
+            <input type="text" class ="form-control col-sm-8" placeholder="Enter Code Table GUID" data-hash="#pageType=p&pageId=207b7e8d-b522-4d7c-b39a-bbbe00a4a663&recordId=">
+            <button type="button" class ="btn btn-primary lookupGo col-sm-1">Go</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+            `;
+    atlas_right.prepend(html);
+    $('.lookupGo').click(function () {
+        var input = $(this).siblings("input");
+        console.log(input);
+        var objid = input.val();
+        // clear inputs
+        $('#lookupForm input').val('');
+        var url = location.href.replace(location.hash, "");
+        url += input.data("hash") + objid;
+        console.log(url);
+        $('#lookupModal').modal('toggle');
+        window.open(url, '_blank');
+    });
+}
+
+function genIDCopy() {
+    var html = `
+<div class ="dropdown">
+  <button class ="dropbtn btn btn-primary btn-sm header-button">IDs</button>
+  <table id="idlist" class ="dropdown-content">
+  </table>
+</div>
+            `;
+    atlas_right.prepend(html);
+    // populate the list the first time
+    updateIdDropdown();
+    // set up click action
+    $(".dropbtn").click(function () {
+        $(this).next().toggle();
+    });
+    // make sure it is updated as the hash changes
+    window.onhashchange = function () { updateIdDropdown(); };
+}
+
 function updateIdDropdown() {
-    console.log("hash changed!");
     var tmpURL = new URL(window.location.href);
     var hashParams = new URLSearchParams(tmpURL.hash.substr(1));
     // clear old links
@@ -189,13 +174,116 @@ function updateIdDropdown() {
     $(".idrow").click(function () {
         var elem = $(this).find(".idvalue");
         var id = elem.val();
-        console.log("clicked");
-        console.log(elem);
-        console.log("clicked id: " + id);
         elem.select();
         document.execCommand("copy");
+        elem.fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
+        $(this).parent().fadeOut(1500);
+
 
         /* Alert the copied text */
-        alert("Copied the text: " + id);
+        //alert("Copied the text: " + id);
     });
+}
+
+function genStopRunAs() {
+    var html = `
+                <div id="stop_runas_div">
+                    <button id="stop_runas">
+                        Stop running as: ${current_page.runas}
+                    </button>
+                </div>
+            `;
+    atlas_middle.append(html);
+
+    $('#stop_runas').click(function () {
+        // Reload the page without the runas parameter
+        var parsedUrl = new URL(window.location.href);
+        parsedUrl.searchParams.delete("runas");
+        window.location.href = parsedUrl.href;
+    });
+}
+
+function genDBDisplay() {
+    var site_instance_name = current_page.site_name;
+    if (site_instance_name != current_page.instance_name) {
+        site_instance_name += "/" + current_page.instance_name;
+    }
+    var html = `
+                <div id="db_title">
+                    <div id="first_row">${site_instance_name}</div>
+                    <div id="second_row">${current_page.database}</div>
+                </div>
+            `;
+    atlas_right.append(html);
+    if (current_page.border_color.length) {
+        //atlas_nav.css("box-shadow", "inset 0 -2px " + border_color);
+        $('#db_title').css("background", current_page.border_color);
+    }
+}
+
+function genScaffolding() {
+    // Positioning
+    // Get the left and right header elements
+    var bbui_left = $('.bbui-pages-header-left');
+    var bbui_right = $('.bbui-pages-header-right');
+
+    // Set the height and width of space between the elements
+    var nav_left = bbui_left.position().left + bbui_left.outerWidth();
+    var nav_height = bbui_left.outerHeight();
+    var nav_width = bbui_right.position().left - nav_left - 40;
+
+    // Create a scaffolding for the space
+    var atlas_nav = `
+                <div id="atlas_nav">
+                    <div id="atlas_left"></div>
+                    <div id="atlas_middle"></div>
+                    <div id="atlas_right"></div>
+                </div>
+                `;
+    // Insert the scaffolding
+    atlas_nav = $(atlas_nav).appendTo("body");
+    // Set the calculated height & width
+    atlas_nav.css("left", nav_left);
+    atlas_nav.css("width", nav_width);
+    atlas_nav.css("height", nav_height);
+
+    // set globals
+    atlas_left = $('#atlas_left');
+    atlas_middle = $('#atlas_middle');
+    atlas_right = $('#atlas_right');
+}
+
+function initPageData(Settings) {
+    // Parse URL
+    var parsedUrl = new URL(window.location.href);
+    // need to do this seperately because URL stops at #
+    var searchParams = new URLSearchParams(parsedUrl.hash.substr(1));
+    // Get item properties
+    current_page = {
+        database: parsedUrl.searchParams.has("databasename") ? parsedUrl.searchParams.get("databasename") : parsedUrl.searchParams.get("databaseName"),
+        runas: parsedUrl.searchParams.get("runas"),
+        server: parsedUrl.hostname,
+        server_name: parsedUrl.hostname.substr(0, parsedUrl.host.indexOf('.')),
+        instance: parsedUrl.pathname.split('/')[1],
+        parsedUrl: parsedUrl,
+        border_color: "",
+        site_name: "",
+        instance_name: ""
+    };
+
+    var currentServer = Settings.servers.find(o => o.url.toUpperCase() == current_page.server.toUpperCase());
+    var currentInstance = null;
+    if (currentServer) {
+        currentInstance = currentServer.instances.find(o => o.path.toUpperCase() == current_page.instance.toUpperCase());
+    }
+
+    // If there is an instance then use settings
+    if (currentInstance) {
+        current_page.border_color = currentInstance.color;
+
+    }
+
+    // Set up text
+    current_page.site_name = currentServer ? currentServer.name : current_page.server_name;
+    current_page.instance_name = currentInstance ? currentInstance.name : current_page.instance;
 }
