@@ -92,29 +92,29 @@ function genLookup() {
       <div class ="modal-body">
         <form id="lookupForm">
           <div class ="form-group form-row">
-            <label class ="col-sm-3">Data Form Instance: </label>
-            <input type="text" class ="form-control col-sm-8" placeholder="Enter Data Form Instance GUID" data-hash="#pageType=p&pageId=72b7e66e-16e9-4eb1-a501-9a80459f6c35&recordId=">
-            <button type="button" class ="btn btn-primary lookupGo col-sm-1">Go</button>
+            <label class ="col-sm-3 col-form-label">Data Form: </label>
+            <input type="text" class ="form-control col-sm-8 form-control-sm" placeholder="Enter Data Form Instance GUID" data-hash="#pageType=p&pageId=72b7e66e-16e9-4eb1-a501-9a80459f6c35&recordId=">
+            <button type="button" class ="btn btn-primary btn-sm lookupGo col-sm-1">Go</button>
           </div>
           <div class ="form-group form-row">
-            <label class ="col-sm-3">Data List: </label>
-            <input type="text" class ="form-control col-sm-8" placeholder="Enter Data List GUID" data-hash="#pageType=p&pageId=a414218c-ce24-44c7-95a9-fcd0a2aa5034&recordId=">
-            <button type="button" class ="btn btn-primary lookupGo col-sm-1">Go</button>
+            <label class ="col-sm-3 col-form-label">Data List: </label>
+            <input type="text" class ="form-control col-sm-8 form-control-sm" placeholder="Enter Data List GUID" data-hash="#pageType=p&pageId=a414218c-ce24-44c7-95a9-fcd0a2aa5034&recordId=">
+            <button type="button" class ="btn btn-primary btn-sm lookupGo col-sm-1">Go</button>
           </div>
           <div class ="form-group form-row">
-            <label class ="col-sm-3">Page Lookup: </label>
-            <input type="text" class ="form-control col-sm-8" placeholder="Enter Page GUID" data-hash="#pageType=p&pageId=cced6699-16a1-4c28-84bb-8cb59f9c2d6d&recordId=">
-            <button type="button" class ="btn btn-primary lookupGo col-sm-1">Go</button>
+            <label class ="col-sm-3 col-form-label">Page Lookup: </label>
+            <input type="text" class ="form-control col-sm-8 form-control-sm" placeholder="Enter Page GUID" data-hash="#pageType=p&pageId=cced6699-16a1-4c28-84bb-8cb59f9c2d6d&recordId=">
+            <button type="button" class ="btn btn-primary btn-sm lookupGo col-sm-1">Go</button>
           </div>
           <div class ="form-group form-row">
-            <label class ="col-sm-3">Simple Data List: </label>
-            <input type="text" class ="form-control col-sm-8" placeholder="Enter Simple Data List GUID" data-hash="#pageType=p&pageId=7fc93169-c4bf-406f-818e-62681c036f1b&recordId=">
-            <button type="button" class ="btn btn-primary lookupGo col-sm-1">Go</button>
+            <label class ="col-sm-3 col-form-label">Smpl Data List: </label>
+            <input type="text" class ="form-control col-sm-8 form-control-sm" placeholder="Enter Simple Data List GUID" data-hash="#pageType=p&pageId=7fc93169-c4bf-406f-818e-62681c036f1b&recordId=">
+            <button type="button" class ="btn btn-primary btn-sm lookupGo col-sm-1">Go</button>
           </div>
           <div class ="form-group form-row">
-            <label class ="col-sm-3">Code Table Lookup: </label>
-            <input type="text" class ="form-control col-sm-8" placeholder="Enter Code Table GUID" data-hash="#pageType=p&pageId=207b7e8d-b522-4d7c-b39a-bbbe00a4a663&recordId=">
-            <button type="button" class ="btn btn-primary lookupGo col-sm-1">Go</button>
+            <label class ="col-sm-3 col-form-label">Code Table: </label>
+            <input type="text" class ="form-control col-sm-8 form-control-sm" placeholder="Enter Code Table GUID" data-hash="#pageType=p&pageId=207b7e8d-b522-4d7c-b39a-bbbe00a4a663&recordId=">
+            <button type="button" class ="btn btn-primary btn-sm lookupGo col-sm-1">Go</button>
           </div>
         </form>
       </div>
@@ -122,6 +122,7 @@ function genLookup() {
   </div>
 </div>
             `;
+
     atlas_right.prepend(html);
     $('.lookupGo').click(function () {
         var input = $(this).siblings("input");
@@ -139,19 +140,30 @@ function genLookup() {
 
 function genIDCopy() {
     var html = `
-<div class ="dropdown">
-  <button class ="dropbtn btn btn-primary btn-sm header-button">IDs</button>
-  <table id="idlist" class ="dropdown-content">
+<button type="button" class ="btn btn-primary btn-sm header-button" data-toggle="modal" data-target="#idModal">
+  IDs
+</button>
+<div class ="modal fade" id="idModal" tabindex="-1" role="dialog" aria-labelledby="idModalLabel" aria-hidden="true">
+  <div class ="modal-dialog" role="document">
+    <div class ="modal-content">
+      <div class ="modal-header">
+        <h5 class ="modal-title" id="idModalLabel">ID Click-to-Copy</h5>
+        <button type="button" class ="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times; </span>
+        </button>
+      </div>
+      <div class ="modal-body">
+        <form id="idForm">
+        </form>
   </table>
+      </div>
+    </div>
+  </div>
 </div>
             `;
     atlas_right.prepend(html);
     // populate the list the first time
     updateIdDropdown();
-    // set up click action
-    $(".dropbtn").click(function () {
-        $(this).next().toggle();
-    });
     // make sure it is updated as the hash changes
     window.onhashchange = function () { updateIdDropdown(); };
 }
@@ -165,20 +177,19 @@ function updateIdDropdown() {
     hashParams.forEach(function (value, key) {
         console.log(value, key);
         //$("#idlist").append(`<a href="#">${key}: ${value}</a>`)
-        $("#idlist").append(`<tr class="idrow">
-                                <td class ="idkey">${key}: </td>
-                                <td><input class ="idvalue" value="${value}" readonly/><td>
-                                </tr>`)
+        $("#idForm").append(`          <div class ="form-group form-row">
+            <label class ="col-sm-3 col-form-label">${key}: </label>
+            <input type="text" class ="form-control col-sm-8 form-control-sm idvalue" value="${value}" readonly>
+          </div>
+`)
     });
 
-    $(".idrow").click(function () {
-        var elem = $(this).find(".idvalue");
+
+    $("#idForm .idvalue").click(function () {
+        var elem = $(this);
         var id = elem.val();
         elem.select();
         document.execCommand("copy");
-        elem.fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
-        $(this).parent().fadeOut(1500);
-
 
         /* Alert the copied text */
         //alert("Copied the text: " + id);
@@ -188,7 +199,7 @@ function updateIdDropdown() {
 function genStopRunAs() {
     var html = `
                 <div id="stop_runas_div">
-                    <button id="stop_runas">
+                    <button id="stop_runas" class="btn btn-danger">
                         Stop running as: ${current_page.runas}
                     </button>
                 </div>
