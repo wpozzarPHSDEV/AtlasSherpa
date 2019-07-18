@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
 
-  "name": "BBCRM Sherpa",
-  "description": "Guides you through BBCRM",
+  "name": "Atlas Sherpa",
+  "description": "Guides you through Atlas",
   "version": "1.0.10",
 
   "permissions": [
@@ -21,10 +21,10 @@
   "content_scripts": [
     {
       "matches": [
-        "http://*/*webui/webshellpage.aspx?databasename*",
-        "https://*/*webui/webshellpage.aspx?databasename*",
-        "http://*/*webui/WebShellPage.aspx?databaseName*",
-        "https://*/*webui/WebShellPage.aspx?databaseName*"
+        "http://*.partners.org/*webui/webshellpage.aspx?databasename*",
+        "https://*.partners.org/*webui/webshellpage.aspx?databasename*",
+        "http://*.partners.org/*webui/WebShellPage.aspx?databaseName*",
+        "https://*.partners.org/*webui/WebShellPage.aspx?databaseName*"
       ],
       "js": [ "./plugins/jquery/jquery-3.3.1.min.js", "./plugins/bootstrap-4.2.1-dist/js/bootstrap.bundle.min.js", "content.js" ],
       "css":  ["./plugins/bootstrap-4.2.1-dist/css/bootstrap.min.atlas_nav.css", "content.css"],
