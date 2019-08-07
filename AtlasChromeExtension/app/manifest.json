@@ -3,7 +3,7 @@
 
   "name": "BBCRM Sherpa",
   "description": "Guides you through BBCRM",
-  "version": "1.0.10",
+  "version": "1.0.11",
 
   "permissions": [
 		"history",
