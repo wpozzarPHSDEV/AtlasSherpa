@@ -7,6 +7,30 @@
 //        return true; //so i can use sendResponse later
 //   }
 //);
+
+// Inject the content script
+chrome.webNavigation.onCompleted.addListener(function (details) {
+    console.log("FROM BACKGROUND");
+    chrome.tabs.insertCSS(details.tabId, { file: './plugins/bootstrap-4.2.1-dist/css/bootstrap.min.atlas_nav.css' });
+    chrome.tabs.insertCSS(details.tabId, { file: 'content.css' });
+    chrome.tabs.executeScript(details.tabId, { file: './plugins/jquery/jquery-3.3.1.min.js' });
+    chrome.tabs.executeScript(details.tabId, { file: './plugins/bootstrap-4.2.1-dist/js/bootstrap.bundle.min.js' });
+    chrome.tabs.executeScript(details.tabId, { file: 'content.js' });
+}, {
+    url: [{
+        pathContains: "webshellpage.aspx"
+    }],
+});
+
+chrome.webNavigation.onCompleted.addListener(function (details) {
+    console.log("FROM BACKGROUND");
+    chrome.tabs.executeScript(details.tabId, { code: 'console.log("Calling from Background.....");' });
+}, {
+    url: [{
+        pathContains: "webshellpage.aspx"
+    }],
+});
+
 var Settings = null;
 var ProcessQueue = [];
 

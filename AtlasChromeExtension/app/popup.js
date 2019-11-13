@@ -22,6 +22,33 @@ chrome.runtime.onMessage.addListener(function (response, sender, sendResponse) {
 
 /* DOC READY */
 $(function () {
+
+    chrome.permissions.contains({
+        origins: ['https://*/*']
+    }, function (result) {
+        if (result) {
+            console.log("HAS PERM");
+        } else {
+            console.log("DOES NOT HAS PERM");
+        }
+    });
+
+    $("#permission_click").click(function () {
+        console.log("Clicked Permissions");
+        chrome.permissions.request({
+            origins: ['https://*/*']
+        }, function (granted) {
+            // The callback argument will be true if the user granted the permissions.
+            if (granted) {
+                console.log("GRANTED!");
+            } else {
+                console.log("DENIED!");
+            }
+        });
+    });
+
+
+
     // TEST
     $("#ajax_test").click(function () {
         chrome.runtime.sendMessage({type:"printQueue"});

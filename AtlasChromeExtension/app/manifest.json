@@ -1,15 +1,20 @@
 {
   "manifest_version": 2,
 
-  "name": "BBCRM Sherpa",
-  "description": "Guides you through BBCRM",
-  "version": "1.0.11",
+  "name": "BBCRM Sherpa - BETA",
+  "description": "BETA TESTING for BBCRM Sherpa",
+  "version": "1.0.12",
 
   "permissions": [
-		"history",
+    "history",
     "activeTab",
     "storage",
-    "https://ajax.googleapis.com/"
+    "https://ajax.googleapis.com/",
+    "webNavigation"
+  ],
+  "optional_permissions": [
+    "http://*/*",
+    "https://*/*"
   ],
   "browser_action": {
     "default_icon": "img/icon.png",
@@ -18,18 +23,5 @@
   "background": {
     "scripts": [ "./plugins/jquery/jquery-3.3.1.min.js", "background.js" ]
   },
-  "content_scripts": [
-    {
-      "matches": [
-        "http://*/*webui/webshellpage.aspx?databasename*",
-        "https://*/*webui/webshellpage.aspx?databasename*",
-        "http://*/*webui/WebShellPage.aspx?databaseName*",
-        "https://*/*webui/WebShellPage.aspx?databaseName*"
-      ],
-      "js": [ "./plugins/jquery/jquery-3.3.1.min.js", "./plugins/bootstrap-4.2.1-dist/js/bootstrap.bundle.min.js", "content.js" ],
-      "css":  ["./plugins/bootstrap-4.2.1-dist/css/bootstrap.min.atlas_nav.css", "content.css"],
-      "run_at": "document_end"
-    }
-  ],
   "web_accessible_resources": ["*.png"]
 }

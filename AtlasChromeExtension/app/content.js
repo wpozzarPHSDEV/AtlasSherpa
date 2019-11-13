@@ -3,10 +3,14 @@
 var current_page;
 
 
+console.log("FIRST THING IN CONTENT");
+
 /* Main Functions */
 function afterPageLoad() {
+    console.log("AFTER LOAD IN CONTENT");
     // Load settings
     chrome.storage.sync.get(['AtlasSherpaSettings'], function (result) {
+        console.log("AFTER SETTINGS IN CONTENT");
         var Settings = result.AtlasSherpaSettings;
 
         var showOverlay = true;
