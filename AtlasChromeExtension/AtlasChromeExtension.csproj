@@ -1256,6 +1256,7 @@
     <Content Include="app\img\Blackbaud\AppFx\Workflow\Catalog\__small\workflow_log_32.png" />
     <Content Include="app\img\Blackbaud\AppFx\Workflow\Catalog\__small\workflow_task_search_32.png" />
     <Content Include="app\img\icon.png" />
+    <Content Include="app\img\icon_128.png" />
     <Content Include="app\inject.js" />
     <Content Include="app\plugins\bootstrap-4.2.1-dist\css\bootstrap.min.atlas_nav.css" />
     <Content Include="app\plugins\jqueryui\jquery-ui.min.css" />

@@ -9,6 +9,7 @@
 //);
 
 // Inject the content script
+/*
 chrome.webNavigation.onCompleted.addListener(function (details) {
     console.log("FROM BACKGROUND");
     chrome.tabs.insertCSS(details.tabId, { file: './plugins/bootstrap-4.2.1-dist/css/bootstrap.min.atlas_nav.css' });
@@ -30,7 +31,7 @@ chrome.webNavigation.onCompleted.addListener(function (details) {
         pathContains: "webshellpage.aspx"
     }],
 });
-
+*/
 var Settings = null;
 var ProcessQueue = [];
 
